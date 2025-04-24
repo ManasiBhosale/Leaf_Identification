@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.js"></script>
+  <title>Leaf Identification</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="static/css/main.css" />
+  
+  <noscript><link rel="stylesheet" href="static/css/noscript.css" /></noscript>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/css/w.css">
+  <style>
+    #bg:after {
+      background-image: url("");
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .close {
+      display: block;
+      position: absolute;
+      color: red;
+      top: 0;
+      right: 0;
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;
+      text-indent: 4rem;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 100;
+    }
+
+    .close:before {
+      -moz-transition: background-color 0.2s ease-in-out;
+      -webkit-transition: background-color 0.2s ease-in-out;
+      -ms-transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 100%;
+      background-position: center;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23FFFFFF%3B stroke-width: 2%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+    }
+
+    .close:hover:before {
+      background-color: rgba(255, 255, 255, 0.075);
+    }
+
+    .close:active:before {
+      background-color: rgba(255, 255, 255, 0.175);
+    }
+  </style>
+</head>
+<body class="is-preload">
+  <div id="wrapper">
+    <div class="#main">
+      <article id="intro">
+        <h2 class="major">follow the instructions</h2>
+        <div class="w3-content w3-display-container">
+          <a href="{{ url_for('index') }}" class="close">close</a>
+          <div class="w3-display-container mySlides">
+            <img src="static/images/try121.jpg" style="width:100%; height:25%;">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              WELCOME!  
+              Our system helps you identify plants by analyzing leaf images.
+            </div>
+          </div>
+
+          <div class="w3-display-container mySlides">
+            <img src="static/images/try121.jpg" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Go to the Homepage — Choose to either Upload an image or Capture one using your camera.
+            </div>
+          </div>
+
+          <div class="w3-display-container mySlides">
+            <img src="static/images/try121.jpg" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Upload or Capture a Leaf Image:  
+              Make sure the full leaf is visible against a plain background (JPG, JPEG or PNG).
+            </div>
+          </div>
+
+          <div class="w3-display-container mySlides">
+            <img src="static/images/try121.jpg" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Click the 'Compute' Button — The system will analyze and predict the leaf’s species.
+            </div>
+          </div>
+
+          <div class="w3-display-container mySlides">
+            <img src="static/images/try121.jpg" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              View Results:  
+              See the predicted plant name, some plant details, and maps of where it’s commonly found.
+            </div>
+          </div>
+
+          <button class="w3-button w3-display-left w3-black" onclick="plusDivs(-1)">&#10094;</button>
+          <button class="w3-button w3-display-right w3-black" onclick="plusDivs(1)">&#10095;</button>
+        </div>
+
+        <script>
+          var slideIndex = 1;
+          showDivs(slideIndex);
+
+          function plusDivs(n) {
+            showDivs(slideIndex += n);
+          }
+
+          function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+              x[i].style.display = "none";  
+            }
+            x[slideIndex-1].style.display = "block";  
+          }
+        </script>
+      </article>
+    </div>
+  </div>
+  <div id="bg"></div>
+  <script src="static/js/jquery.min.js"></script>
+  <script src="static/js/browser.min.js"></script>
+  <script src="static/js/breakpoints.min.js"></script>
+  <script src="static/js/util.js"></script>
+  <script src="static/js/main.js"></script>
+</body>
+</html>

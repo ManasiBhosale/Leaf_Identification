@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaf Identification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <script src="https://code.jquery.com/jquery-1.8.2.js"></script>
+  <style type="text/css">
+    /* Overlay (if needed) */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      opacity: 0.5;
+      z-index: 100;
+      display: none;
+    }
+    /* Initial Trivia Popup */
+    .popup {
+      width: 100%;
+      padding-left: 100px;
+      margin-left: 5px;
+      padding-right: 100px;
+      margin-right: 200px;
+      padding-top: 100px;
+      margin-top: 0;
+      padding-bottom: 80px;
+      margin-bottom: 140px;
+      z-index: 101;
+    }
+    .pop_h1 {
+      letter-spacing: 0rem;
+    }
+    .cnt223 {
+      min-width: 600px;
+      width: 600px;
+      min-height: 150px;
+      margin: 100px auto;
+      background: #f3f3f3;
+      position: relative;
+      z-index: 103;
+      padding: 15px 35px;
+      border-radius: 5px;
+      box-shadow: 0 3px 5px #000;
+      opacity: 5;
+      background: url("{{ url_for('static', filename='images/bg.jpg') }}") center no-repeat;
+      background-size: 100%;
+    }
+    .cnt223 p {
+      padding-top: 30px;
+      color: black;
+      font-size: 20px;
+      font-family: sans-serif;
+    }
+
+    .cnt223 p a {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 2rem;
+      border-radius: 100%;
+      font-size: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease-in-out;
+      background-color: transparent;
+      overflow: hidden; /* Ensures the hidden text doesn't show */
+
+    }
+
+    .cnt223 p a:before {
+      content: "\00d7"; /* Unicode for multiplication sign (×) */
+      color: black;
+      font-size: 40px;
+      border-radius: 100%;
+      line-height: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      transition: background-color 0.2s ease-in-out;
+    }
+    
+    .cnt223 p a:hover:before {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .cnt223 p a:active:before {
+      background-color: rgba(255, 255, 255, 1);
+    }
+    
+    .half-black {
+      background: rgba(0, 0, 0, 0.6);
+      line-height: 1;
+      padding-top: 10px;
+      padding-bottom: 1px;
+      font-weight: bold;
+    }
+    
+    .index_ul {
+      font-weight: bold;
+      font-size: 25px;
+    }
+    
+    /* Modal styling for Info and Collection */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 200; /* Above other content */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    .modal-content {
+      background-color: rgba(27, 31, 34, 0.85);
+      margin: 10% auto;
+      padding: 4.5rem 2.5rem 1.5rem 2.5rem;
+      border: 1px solid rgba(27, 31, 34, 0.85);
+      width: 40rem;
+      max-width: 100%;
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .modal .close-modal {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 100%;
+      font-size: 40px; /* Slightly bigger icon */
+      cursor: pointer;
+      display: flex; /* Use flex to center the icon */
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .modal .close-modal:hover {
+      background-color: rgba(255, 255, 255, 0.075);
+    }
+
+    /* Additional styling for product details modal (try_route) */
+    .product__photo, .product__info {
+      margin: 20px auto;
+      text-align: center;
+    }
+    .hoverZoomLink {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Background image container */
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: url('../images/bg.jpg') center center no-repeat;
+      background-size: cover;
+      z-index: 0;
+      transition: filter 0.4s ease;
+    }
+
+    /* When modal is open, blur background */
+    body.modal-open #bg {
+      filter: blur(6px);
+    }
+
+    /* Hide capture/upload area when modal is open */
+    body.modal-open #main-capture {
+      display: none !important;
+    }
+
+    /* Make modal background semi-transparent black */
+    .modal {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Make modal content less transparent than modal background */
+    .modal-content {
+      background-color:  rgba(27, 31, 34, 0.85);
+      color: white;
+    }
+
+    /* Ensure all main sections are above the background */
+    #wrapper, #header, #main, .popup, .modal {
+      z-index: 10;
+      position: relative;
+    }
+
+		#bg:before, #bg:after {
+			content: '';
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		#bg:before {
+			-moz-transition: background-color 2.5s ease-in-out;
+			-webkit-transition: background-color 2.5s ease-in-out;
+			-ms-transition: background-color 2.5s ease-in-out;
+			transition: background-color 2.5s ease-in-out;
+			-moz-transition-delay: 0.75s;
+			-webkit-transition-delay: 0.75s;
+			-ms-transition-delay: 0.75s;
+			transition-delay: 0.75s;
+			background-image: linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)), url("static/images/overlay.png");
+			background-size: auto,
+      background-position: center,
+      background-repeat: no-repeat,
+			z-index: 2;
+		}
+
+		#bg:after {
+			-moz-transform: scale(1.125);
+			-webkit-transform: scale(1.125);
+			-ms-transform: scale(1.125);
+			transform: scale(1.125);
+			-moz-transition: -moz-transform 0.325s ease-in-out, -moz-filter 0.325s ease-in-out;
+			-webkit-transition: -webkit-transform 0.325s ease-in-out, -webkit-filter 0.325s ease-in-out;
+			-ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
+			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
+			background-image: url("static/images/img2.jpg");
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+			z-index: 1;
+		}
+
+		body.is-article-visible #bg:after {
+			-moz-transform: scale(1.0825);
+			-webkit-transform: scale(1.0825);
+			-ms-transform: scale(1.0825);
+			transform: scale(1.0825);
+			-moz-filter: blur(0.2rem);
+			-webkit-filter: blur(0.2rem);
+			-ms-filter: blur(0.2rem);
+			filter: blur(0.2rem);
+		}
+
+		body.is-preload #bg:before {
+			background-color: #000000;
+		}
+
+    /* When modal is open, blur background */
+    body.modal-open #bg {
+      filter: blur(6px);
+    }
+
+    /* Hide capture/upload area when modal is open */
+    body.modal-open #main-capture {
+      display: none !important;
+    }
+    .modal {
+      transition: opacity 0.4s ease;
+    }
+    body.modal-open #bg:after {
+      transform: scale(1.08);
+      filter: blur(0.3rem);
+    }
+
+    body.modal-closing #bg:after {
+      transform: scale(1.125);
+      filter: blur(0rem);
+    }
+
+    body.modal-open {
+      transition: all 0.6s ease;
+    }
+
+    .modal.show {
+      display: block;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .modal.hide {
+      animation: fadeOut 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .image.main {
+      flex: 0 1 calc(33.33% - 20px);
+      max-width: calc(33.33% - 20px);
+      height: 280px;
+      background-color: #f3f3f3;
+      border-radius: 10px;
+      overflow: hidden;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .image.main a {
+      color: black;
+      text-decoration: none;
+      display: block;
+      padding: 8px 0;
+      font-weight: bold;
+    }
+
+    .image.main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+
+
+  </style>
+  
+</head>
+
+<body>
+  <!-- Initial Trivia Popup (shows on load) -->
+  <div class="popup" id="popup">
+    <div class="cnt223">
+      <h1 class="pop_h1" style="font-size:25px; text-decoration: underline; color:black; font-family: 'Droid Serif', serif; letter-spacing: 0.2px; text-align:center;">
+        Did you know !?
+      </h1>
+      <p id="popup-fact">
+        {{ random_trivia }}
+        <br/><br/>
+        <a href="javascript:void(0);" class="close" onclick="closeInitialPopup()"></a>
+      </p>
+    </div>
+  </div>
+  
+
+
+  <!-- Main Capture/Upload Area (hidden until initial popup is closed) -->
+  <div id="main-capture" style="display:none;">
+    <header id="header">
+      <div class="logo"><span class="fa fa-leaf fa-2x"></span></div>
+      <div class="content">
+        <div class="inner">
+          <h1>Leaf Identification</h1>
+          <p>The true meaning of life is to plant trees, under whose shade you do not expect to sit.</p>
+          <div class="half-black">
+            <center>
+              <button onclick="window.location.href='/camera'">Click <i class="fa fa-camera"></i></button>
+            </center>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+              <br>
+              <center><label>-----OR-----</label></center>
+              <input type="file" name="file" accept="image/*" ><br><br>
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <ul class="index_ul">
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <!-- These links will trigger modals -->
+          <li><a href="javascript:void(0);" class="tab-link" data-target="modal-info">Info</a></li>
+          <li><a href="javascript:void(0);" class="tab-link" data-target="modal-collection">Collection</a></li>
+          <li><a href="{{ url_for('help') }}">Help</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <div id="main">
+
+  <!-- Modals for Tab Content -->
+  <!-- Modal for Info -->
+  <div id="modal-info" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('modal-info')">&times;</span>
+      <h2 class="major">Info</h2>
+      <p style="font-weight: 500; font-size:22px;">
+        Want to know what kind of plant you have in your backyard? Fear not. You just have to upload a picture of the leaf.<br>
+        <b>And VOILA!!</b><br>
+        You will get all the related information.<br>
+        You can also add your favorite plants to your collection.<br>
+        And YES! Don't forget to <b>plant more plants!!<br> ENJOYYY!!</b>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Modal for Collection -->
+<div id="modal-collection" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('modal-collection')">&times;</span>
+    <h2 class="major">Your Collection</h2>
+    <div class="image-grid">
+      {% set collection = load_collection() %}
+      {% for item in collection %}
+        <div class="image main">
+          <!-- The link includes the collection item's index -->
+          <a href="{{ url_for('collection_item', item_id=loop.index0) }}">
+            {{ item.plant_details['Plant Name']|replace('_', ' ') }}<br>
+            <small style="color:gray; font-size: 15px">  {{ item.date_added.split('T')[0] }}</small>
+          </a>
+          <a href="{{ url_for('collection_item', item_id=loop.index0) }}">
+            <img src="{{ url_for('static', filename='images/collect/' + item.image) }}">
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+  <!-- Modal for Product Details (from try_route) -->
+  {% if plant_category %}
+  <div id="modal-product" class="modal" style="display:block;">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('modal-product')">&times;</span>
+      <h2 class="major">Plant Details for {{ plant_category }}</h2>
+      <div class="product__photo">
+        <div class="photo-container">
+          <div class="photo-main">
+            <a href="{{ url_for('index') }}" class="close" id="close" style="background-color:rgba(0, 0, 0, 0.9);">close</a>
+            <img src="{{ url_for('static', filename='images/collect/' + plant_category + '.jpg') }}" alt="Not Available" class="hoverZoomLink">
+          </div>
+        </div>
+      </div>
+      <div class="product__info">
+        <div class="title">
+          {{ plant_category }}
+        </div>
+        {% for title, detail in plant_info.items() %}
+          <div class="description">
+            <b>{{ title }}:</b><br> {{ detail }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<!-- Footer -->
+<footer id="footer"></footer>
+
+<!-- BG (Background) -->
+<div id="bg"></div>
+
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+  // Function to close the initial trivia popup and show capture area
+  function closeInitialPopup() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("main-capture").style.display = "block";
+  }
+
+  // Function to close modals
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
+    document.body.classList.remove('modal-open');
+  }
+
+  // Modal opening for tab links with background blur
+  $(document).ready(function() {
+    $('.tab-link').on('click', function(e) {
+      e.preventDefault();
+      var target = $(this).data('target');
+      $('#' + target).fadeIn(300);
+      document.body.classList.add('modal-open');
+    });
+  });
+
+  // Show initial popup on page load with a slight delay
+  window.onload = function() {
+    setTimeout(function() {
+      document.getElementById("popup").style.display = "block";
+    }, 500);
+  };
+  
+    document.querySelectorAll('.tab-link').forEach(link => {
+    link.addEventListener('click', function () {
+      const targetId = this.getAttribute('data-target');
+      const modal = document.getElementById(targetId);
+      document.body.classList.add('modal-open');
+      modal.classList.add('show');
+      modal.classList.remove('hide');
+    });
+  });
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+    document.body.classList.add('modal-closing');
+
+    setTimeout(() => {
+      modal.style.display = 'none';
+      modal.classList.remove('hide');
+      document.body.classList.remove('modal-open');
+      document.body.classList.remove('modal-closing');
+    }, 400); // Match animation duration
+  }
+</script>
+</body>
+</html>

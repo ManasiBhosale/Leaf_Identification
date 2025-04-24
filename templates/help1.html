@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaf Identification - Help</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}"></noscript>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/w.css') }}">
+  <style>
+    #bg:after {
+      background-image: url("");
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .close {
+      display: block;
+      position: absolute;
+      color: red;
+      top: 0;
+      right: 0;
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaf Identification - Help</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}"></noscript>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/w.css') }}">
+  <style>
+    #bg:after {
+      background-image: url("");
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .close {
+      display: block;
+      position: absolute;
+      color: red;
+      top: 0;
+      right: 0;
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;
+      text-indent: 4rem;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .close:before {
+      transition: background-color 0.2s ease-in-out;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 100%;
+      background-position: center;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20px' height='20px' viewBox='0 0 20 20'%3E%3Cstyle%3Eline { stroke: #FFFFFF; stroke-width: 2; }%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18'/%3E%3Cline x1='18' y1='2' x2='2' y2='18'/%3E%3C/svg%3E");
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+    }
+    .close:hover:before {
+      background-color: rgba(255, 255, 255, 0.075);
+    }
+    .close:active:before {
+      background-color: rgba(255, 255, 255, 0.175);
+    }
+  </style>
+</head>
+<body class="is-preload">
+  <div id="wrapper">
+    <div id="main">
+      <article id="intro">
+        <h2 class="major">Follow the Instructions</h2>
+        <div class="w3-content w3-display-container">
+          <a href="{{ url_for('index') }}" class="close">close</a>
+          <div class="w3-display-container mySlides">
+            <img src="{{ url_for('static', filename='images/try121.jpg') }}" style="width:100%; height:25%;">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              WELCOME! Our system will help you to identify almost any plant easily!
+            </div>
+          </div>
+          <div class="w3-display-container mySlides">
+            <img src="{{ url_for('static', filename='images/try121.jpg') }}" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Take centered, well-lit photos of the leaf!
+            </div>
+          </div>
+          <div class="w3-display-container mySlides">
+            <img src="{{ url_for('static', filename='images/try121.jpg') }}" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Make sure that the focus is on the photographed object and not on the background!
+            </div>
+          </div>
+          <div class="w3-display-container mySlides">
+            <img src="{{ url_for('static', filename='images/try121.jpg') }}" style="width:100%">
+            <div class="w3-display-middle w3-large w3-container w3-padding-16 w3-white">
+              Don't snap plants that are too far away from the frame!
+            </div>
+          </div>
+          <button class="w3-button w3-display-left w3-black" onclick="plusDivs(-1)">&#10094;</button>
+          <button class="w3-button w3-display-right w3-black" onclick="plusDivs(1)">&#10095;</button>
+        </div>
+        <script>
+          var slideIndex = 1;
+          showDivs(slideIndex);
+          function plusDivs(n) {
+            showDivs(slideIndex += n);
+          }
+          function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = x.length}
+            for (i = 0; i < x.length; i++) {
+              x[i].style.display = "none";  
+            }
+            x[slideIndex-1].style.display = "block";  
+          }
+        </script>
+      </article>
+    </div>
+    <div id="bg"></div>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </div>
+</body>
+</html>

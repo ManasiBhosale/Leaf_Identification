@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaf Identification</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: url('/static/images/output1.jpg') repeat;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f3f3f3;
+      height: 100vh;
+    }
+
+    .container {
+      height: calc(100vh - 40px);
+      display: flex;
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .left-section, .right-section {
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .left-section {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .right-section {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 100%;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      scroll-behavior: smooth;
+    }
+
+    .plant-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #a8dcff;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .plant-left-container {
+      display: flex;
+      gap: 40px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .details-text p {
+      margin: 20px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #e0e6ec;
+    }
+
+    .details-text b {
+      color: #99cfff;
+      font-weight: 600;
+    }
+
+    .image-container {
+      text-align: center;
+    }
+
+    .small-img {
+      width: 160px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .small-img:hover {
+      transform: scale(1.08);
+    }
+
+    .submit1 {
+      margin-top: 20px;
+      background: linear-gradient(135deg, #4cd964, #34c759);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .submit1:hover {
+      background: linear-gradient(135deg, #5ee182, #45d86c);
+      transform: translateY(-2px);
+    }
+
+    .right-section h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #a8dcff;
+      margin-bottom: 30px;
+    }
+
+    .location {
+      margin-bottom: 40px;
+    }
+
+    .location-name {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #e0e6ec;
+    }
+
+    .map-container {
+      height: 250px;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .home-btn-container {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .home-btn {
+      background-color: #28a745;
+      border: none;
+      color: #fff;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .home-btn:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(0,0,0,0.85);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-10px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .right-section {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .plant-left-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .small-img {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Section -->
+    <div class="left-section">
+      <h2 class="plant-title">{{ plant_details['Plant Name']|replace('_', ' ') }}</h2>
+      <div class="plant-left-container">
+        <div class="details-text">
+          {% set titles = ['Botanical Name', 'Other Names', 'Medicinal Uses', 'Locations'] %}
+          {% for title in titles %}
+            <p><b>{{ title }}:</b><br> {{ plant_details[title] }}</p>
+          {% endfor %}
+        </div>
+        <div class="image-container">
+          <img class="small-img" src="{{ url_for('display_image', filename=img_file) }}" alt="Leaf Image">
+          <form method="post" action="{{ url_for('add_to_collection') }}">
+            <button name="submit1" id="submit1" class="submit1">Add to Collection</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section">
+      <h3>All Known Locations of {{ item|replace('_', ' ') }}</h3>
+      {% for loc in locations %}
+      <div class="location">
+        <div class="location-name">{{ loc }}</div>
+        <div id="map-{{ loop.index }}" class="map-container"></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="home-btn-container">
+    <a href="{{ url_for('index') }}"><button class="home-btn">Home</button></a>
+  </div>
+
+  <div id="popup"><strong>Image added to collection!</strong></div>
+
+  <script>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        document.getElementById('popup').style.display = 'block';
+        setTimeout(function () {
+          document.getElementById('popup').style.display = 'none';
+        }, 3000);
+      {% endif %}
+    {% endwith %}
+  </script>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const locationNames = {{ locations|tojson }};
+    locationNames.forEach((loc, index) => {
+      const mapId = "map-" + (index + 1);
+      const map = L.map(mapId).setView([20.5937, 78.9629], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map);
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(loc)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+            map.setView([lat, lon], 6);
+            L.marker([lat, lon]).addTo(map).bindPopup(loc).openPopup();
+          }
+        });
+    });
+  </script>
+</body>
+</html>

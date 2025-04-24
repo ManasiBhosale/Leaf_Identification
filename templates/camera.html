@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Leaf Identification - Camera Capture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="static/css/main.css" />
+  <noscript><link rel="stylesheet" href="static/css/noscript.css" /></noscript>
+
+  <!-- Include Webcam.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    #Cam, #Prev {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    #my_camera {
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+
+    #results img {
+      margin-top: 15px;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+      font-size: 0.9rem;
+      text-align: center;
+      background: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+      padding: 0 20px;
+    }
+
+    button:hover {
+      background: #256f46;
+    }
+
+    .major {
+      text-align: center;
+      margin-bottom: 30px;
+      color: white;
+      align-items: center;
+      justify-content: center;
+    }
+
+    b {
+      display: block;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    #bg {
+      background-image: url("static/images/img2.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+  </style>
+
+  <script type="text/javascript">
+    Webcam.set({
+      width: 500,
+      height: 400,
+      image_format: 'jpeg',
+      jpeg_quality: 90,
+      constraints: {
+        facingMode: "environment"
+      }
+    });
+
+    function showCamera() {
+      Webcam.attach('#my_camera');
+    }
+
+    function take_snapshot() {
+      Webcam.snap(function(data_uri) {
+        document.getElementById('results').innerHTML =
+          '<img id="base64image" src="' + data_uri + '"/>' +
+          '<br><br><button onclick="saveSnapshot()">Compute</button>';
+      });
+    }
+
+    function saveSnapshot() {
+      var data_uri = document.getElementById("base64image").src;
+      $.ajax({
+        url: "/upload_camera",
+        type: "POST",
+        data: { base64image: data_uri },
+        success: function(response) {
+          window.location.href = "/compute";
+        },
+        error: function(xhr, status, error) {
+          alert("Error uploading image: " + error);
+        }
+      });
+    }
+
+    window.onload = showCamera;
+  </script>
+</head>
+<body class="is-preload">
+  <div id="wrapper">
+    <div class="main">
+      <article id="intro">
+        <h2 class="major">CLICK AND UPLOAD</h2>
+        <div class="container" id="Cam">
+          <b>Webcam Preview...</b>
+          <div id="my_camera"></div>
+          <br>
+          <button onclick="take_snapshot()">Snap It</button>
+        </div>
+        <div class="container" id="Prev">
+          <div id="results"></div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- BG (Background) -->
+  <div id="bg"></div>
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/rowser.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

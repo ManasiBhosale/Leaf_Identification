@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ item.plant_details['Plant Name'] }} Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <style>
+    body {
+      background: url("{{ url_for('static', filename='images/bg.jpg') }}") center center no-repeat;
+      background-size: cover;
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .detail-container {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .detail-container h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #00573F;
+    }
+    .detail-container p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    .detail-container p strong {
+      color: #00573F;
+    }
+    .detail-image {
+      display: block;
+      max-width: 50%;
+      margin: 30px auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .close-btn1 {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 2rem;
+      border-radius: 100%;
+      color: #00573F !important;
+      cursor: pointer;
+      padding: 0 10px;
+      line-height: 1;
+    }
+    .close-btn1:hover {
+      color: #45a049 !important;
+      background-color: white;
+    }
+    @media (max-width: 768px) {
+      .detail-container {
+        margin: 40px 20px;
+        padding: 20px;
+      }
+      .detail-container h1 {
+        font-size: 2rem;
+      }
+      .close-btn1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <button class="close-btn1" onclick="window.history.back();">&times;</button>
+    <h1>{{ item.plant_details['Plant Name']|replace('_', ' ') }}</h1>
+    <p><strong>Botanical Name:</strong> {{ item.plant_details['Botanical Name'] }}</p>
+    <p><strong>Other Names:</strong> {{ item.plant_details['Other Names'] }}</p>
+    <p><strong>Medicinal Uses:</strong> {{ item.plant_details['Medicinal Uses'] }}</p>
+    <p><strong>Locations:</strong> {{ item.plant_details['Locations'] }}</p>
+    <p><strong>Date Added:</strong> {{ item.date_added|replace("T", " ") }}</p>
+    <img class="detail-image" src="{{ url_for('static', filename='images/collect/' + item.image) }}" alt="{{ item.plant_details['Plant Name'] }}">
+  </div>
+</body>
+</html>
