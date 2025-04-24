@@ -71,7 +71,8 @@ Here are some screenshots showcasing different features of the leaf identificati
    
 **3. Camera Upload Screen**
    <br>
-   The screen where users can take a live image of a leaf for identification.
+   The screen where users can take a live image of a leaf for identification. <br>
+   (Wasn't about to show my face, so here's my phone saying 'hello' instead! No leaves, no problem—just a fun little message for you!)
    
    ![Camera Upload](https://github.com/ManasiBhosale/Leaf_Identification/blob/c701b100bc234646e86d04968bf4e66992c188d1/Site%20Screenshots/Camera_Upload.png)  
    
