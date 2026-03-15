@@ -61,7 +61,9 @@ Watch the app in action! The video below demonstrates how to:
 - Explore plant details and maps  
 - Save the leaf to your personal collection  
 
-![Leaf Identification Demo](https://github.com/ManasiBhosale/Leaf_Identification/blob/64693c7da6ebaf3348e28c5f9a57284e2d3da93e/Site%20Screenshots/Demo.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ManasiBhosale/Leaf_Identification/64693c7da6ebaf3348e28c5f9a57284e2d3da93e/Site%20Screenshots/Demo.gif" width="80%">
+</p>
 
 ---
 
