@@ -1,6 +1,6 @@
 # 🍃 Leaf Identification Web App
 
-A modern, interactive web app that lets users discover plant facts and identify leaves using a CNN-based model. Snap a live photo or upload an image, get a classification, explore plant details and maps—and even build your own collection of favourite leaves!
+A modern, interactive web app that lets users discover plant facts and identify leaves using a CNN-based model. Snap a live photo or upload an image, get a classification, explore plant details and maps and even build your own collection of favourite leaves!
 
 ---
 
@@ -35,7 +35,7 @@ Behind the scenes, a CNN trained on 1,625 leaf images across **10 species** (wit
 - **Medicinal Uses**  
 - **Known Locations** (interactive maps powered by Leaflet.js + OpenStreetMap)  
 
-Plus, you can **save favorites** in your personal Collection—so you never have to re-upload the same leaf twice.  
+Plus, you can **save favorites** in your personal Collection so you never have to re-upload the same leaf twice.  
 
 ---
 
@@ -168,9 +168,9 @@ Here are some screenshots showcasing different features of the leaf identificati
 
 ## 🎯 Usage
 
-1. Load the site—enjoy a random plant fact.  
+1. Load the site, enjoy a random plant fact.  
 2. Click “Capture Live” or “Upload Image” to select your leaf.  
-3. Wait a second—your leaf is classified!  
+3. Wait a second, your leaf is now classified!  
 4. Explore botanical details, medicinal uses, and location maps.  
 5. Hit “Add to Collection” to bookmark for later.
 
@@ -251,6 +251,6 @@ This project wouldn't be possible without the amazing open-source tools, librari
 - **Pillow (PIL)** – for image handling  
 - **Leaflet.js + OpenStreetMap** – for displaying plant locations interactively  
 - **TQDM, scikit-learn** – for boosting training and preprocessing   
-- **![Leafsnap dataset](https://doi.org/10.1007/978-3-642-33709-3_36)** - The creators of the leaf dataset – for contributing a high-quality image set  
+- **![Leafsnap dataset](https://doi.org/10.1007/978-3-642-33709-3_36)** - The creators of the leaf dataset for contributing a high-quality image set  
 
 ---
