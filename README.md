@@ -267,6 +267,6 @@ This project wouldn't be possible without the amazing open-source tools, librari
 - **Pillow (PIL)** – for image handling  
 - **Leaflet.js + OpenStreetMap** – for displaying plant locations interactively  
 - **TQDM, scikit-learn** – for boosting training and preprocessing   
-- **![Leafsnap dataset](https://doi.org/10.1007/978-3-642-33709-3_36)** - The creators of the leaf dataset for contributing a high-quality image set  
+- **![Leafsnap dataset](https://leafsnap.com/dataset/)** - The creators of the leaf dataset for contributing a high-quality image set  
 
 ---
