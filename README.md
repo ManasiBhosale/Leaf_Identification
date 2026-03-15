@@ -9,7 +9,7 @@ A modern, interactive web app that lets users discover plant facts and identify 
 1. [Project Overview](#-project-overview)
 2. [Features](#-features)  
 3. [Demo](#-demo)  
-4. [Screenshots](#-screenshots)  
+4. [Screenshots](#-site-screenshots)  
 5. [Getting Started](#-getting-started)  
    - [Prerequisites](#prerequisites)  
    - [Installation](#installation)  
@@ -49,6 +49,20 @@ Plus, you can **save favorites** in your personal Collection so you never have t
 - **Collection** feature to bookmark leaves + timestamp  
 - Modern, responsive UI with smooth modal dialogs
   
+---
+
+## 🎬 Demo
+
+Watch the app in action! The video below demonstrates how to:
+
+- Open the leaf identification website  
+- Capture or upload a leaf image  
+- View the classification results  
+- Explore plant details and maps  
+- Save the leaf to your personal collection  
+
+![Leaf Identification Demo](https://github.com/ManasiBhosale/Leaf_Identification/blob/64693c7da6ebaf3348e28c5f9a57284e2d3da93e/Site%20Screenshots/Demo.gif)
+
 ---
 
 ## 📸 Site Screenshots
