@@ -15,7 +15,8 @@ A modern, interactive web app that lets users discover plant facts and identify 
 ---
 
 ## 🚀 Table of Contents
-
+<div style="font-size: 0.9rem;">
+    
 1. [Project Overview](#-project-overview)
 2. [Features](#-features)  
 3. [Demo](#-demo)  
@@ -29,6 +30,8 @@ A modern, interactive web app that lets users discover plant facts and identify 
 9. [Future Improvements](#-future-improvements)  
 10. [Contributing](#-contributing)  
 11. [Credits](#-credits)  
+
+</div>
 
 ---
 
