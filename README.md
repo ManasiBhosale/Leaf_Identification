@@ -1,4 +1,14 @@
-# 🍃 Leaf Identification Web App
+
+<h1 style="display: flex; align-items: center; gap: 10px; margin: 0;">
+    Leaf Identification Web App 
+  <img
+    src="https://github.com/ManasiBhosale/Leaf_Identification/blob/defca9836b080136ba9396c2bc9d35f96252fa6d/Site%20Screenshots/winterflower-plants-7679.gif"
+    alt="Alexa Emoji"
+    width="100"
+    align="absmiddle"
+  />
+</h1>
+
 
 A modern, interactive web app that lets users discover plant facts and identify leaves using a CNN-based model. Snap a live photo or upload an image, get a classification, explore plant details and maps and even build your own collection of favourite leaves!
 
