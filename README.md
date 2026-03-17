@@ -3,7 +3,7 @@
     Leaf Identification Web App 
   <img
     src="https://github.com/ManasiBhosale/Leaf_Identification/blob/defca9836b080136ba9396c2bc9d35f96252fa6d/Site%20Screenshots/winterflower-plants-7679.gif"
-    alt="Alexa Emoji"
+    alt=" Plants GIF "
     width="100"
     align="absmiddle"
   />
